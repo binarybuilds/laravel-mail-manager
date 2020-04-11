@@ -1,6 +1,8 @@
 ## Laravel Mail Manager
 ------------------------------------------------
-A laravel package to easily resend emails without going through entire application flow.
+A laravel package to easily resend system generated emails without going through entire application flow.
+
+> This package does not provide any UI. If you are looking for a UI wrapper, See [laravel nova mail manager](https://github.com/binarybuilds/nova-mail-manager)
 
 ### How It Works?
 This package will store all outgoing emails inside database and will track their status
