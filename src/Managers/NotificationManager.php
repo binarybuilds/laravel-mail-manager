@@ -4,6 +4,7 @@ namespace BinaryBuilds\LaravelMailManager\Managers;
 
 use BinaryBuilds\LaravelMailManager\Models\MailManagerMail;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\AnonymousNotifiable;
 
 /**
  * Class NotificationManager
@@ -26,9 +27,18 @@ class NotificationManager implements MailManagerInterface
             ]);
         }
         else {
+            $recipients = [];
+            if( $event->notifiable instanceof AnonymousNotifiable ) {
+                if( is_array($event->notifiable->routes) ) {
+                    $recipients = array_values($event->notifiable->routes);
+                }
+            } else {
+                $recipients = [ $event->notifiable->routeNotificationFor('mail') ];
+            }
+
             MailManagerMail::create([
                 'uuid' => $event->notification->id,
-                'recipients' =>  array_values($event->notifiable->routes),
+                'recipients' => $recipients,
                 'subject'  =>$event->notification->toMail($event->notifiable)->subject,
                 'mailable_name' => get_class($event->notification),
                 'mailable' => serialize(clone $event->notification),
