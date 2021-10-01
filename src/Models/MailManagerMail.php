@@ -58,7 +58,7 @@ class MailManagerMail extends Model
     {
         parent::__construct( $attributes );
 
-        $this->setTable( config('mail-manager.table_name') );
+        $this->setTable(config('mail_manager.table_name'));
     }
 
     /**
